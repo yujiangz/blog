@@ -1,0 +1,27 @@
+@tailwind base;
+
+@layer base {
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gray-400 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-500;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-gray-300;
+  }
+
+  body {
+    @apply dark:bg-slate-900 dark:text-slate-200 min-h-screen text-slate-600;
+  }
+
+
+  input {
+    @apply border bg-white bg-opacity-0 rounded-md outline-none px-2 py-1;
+  }
+}
