@@ -13,5 +13,8 @@ export default defineStore("AppHeader", {
     setShow(newShow: boolean) {
       this.show = newShow !== undefined ? newShow : !this.show;
     },
+    titleInit() {
+      this.title = "张航的主页";
+    },
   },
 });

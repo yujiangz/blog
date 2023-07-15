@@ -34,7 +34,7 @@ watchEffect(async () => {
     </div>
     <!-- 文档 -->
     <div class="flex-grow overflow-hidden basis-5/6">
-      <AppDoc :article="article.content" class="p-4"  />
+      <AppDoc :article="article.content" :title="article.title" class="p-4" />
     </div>
   </div>
 </template>

@@ -1,173 +1,171 @@
 <script setup lang="ts">
-import { marked } from "marked";
-import { markedHighlight } from "marked-highlight";
-import { gfmHeadingId } from "marked-gfm-heading-id";
-import { computed, ref } from "vue";
-import hljs from "highlight.js";
-
 import "@styles/markdown.css";
 import "@styles/highlight.css";
+import { marked } from "marked";
+import { markedHighlight } from "marked-highlight";
+import hljs from "highlight.js";
+
+import { gfmHeadingId } from "marked-gfm-heading-id";
+import { computed, ref, watch } from "vue";
+
 import { CatalogIcon, CloseIcon } from "./icon";
 import { gsap } from "gsap";
 
+import useAppHeader from "@/store/modules/useAppHeader";
+
+const headerStore = useAppHeader();
+
 // marked 配置
 marked.use({
-  headerIds: false,
-  mangle: false,
+    headerIds: false,
+    mangle: false,
 });
-
-marked.use(
-  markedHighlight({
-    langPrefix: "hljs language-",
-    highlight(code, lang) {
-      const language = hljs.getLanguage(lang) ? lang : "plaintext";
-      return hljs.highlight(code, { language }).value;
-    },
-  })
-);
 
 marked.use(gfmHeadingId());
 
+// @ts-ignore
+marked.use(markedHighlight({
+    async: true,
+    langPrefix: 'hljs language-',
+    highlight(code, lang) {
+        return new Promise<string>((resolve, _reject) => {
+            const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+            resolve(hljs.highlight(code, { language }).value);
+        })
+    }
+}));
+
+
 // 页面
 const props = defineProps<{
-  title?: string;
-  article: string;
+    title?: string;
+    article: string;
 }>();
 
-const html = computed(() => {
-  return marked.parse(props.article);
+// 设置 header 的标题
+watch(
+    () => props.title,
+    (title) => {
+        if (!title) return;
+        headerStore.setTitle(title);
+    },
+    { immediate: true }
+);
+
+const html = ref('');
+watch(() => props.article, async (ar) => {
+    if (ar == '') return;
+    html.value = await marked.parse(props.article);
 });
+
 
 // 标题
 
 interface Title {
-  level: number;
-  id: string;
-  title: string;
+    level: number;
+    id: string;
+    title: string;
 }
 const titles = computed<Title[] | undefined>(() => {
-  if (!html.value) return undefined;
-  const titles: Title[] = [];
-  const reg = /<h([2-6]) id="(.+)">(.+)<\/h[1-6]>/g;
-  let result = reg.exec(html.value);
-  while (result) {
-    titles.push({
-      level: parseInt(result[1]),
-      id: result[2],
-      title: result[3],
-    });
-    result = reg.exec(html.value);
-  }
-  return titles;
+    if (!html.value) return undefined;
+    const titles: Title[] = [];
+    const reg = /<h([2-6]) id="(.+)">(.+)<\/h[1-6]>/g;
+    let result = reg.exec(html.value);
+    while (result) {
+        titles.push({
+            level: parseInt(result[1]),
+            id: result[2],
+            title: result[3],
+        });
+        result = reg.exec(html.value);
+    }
+    return titles;
 });
 const titleScroll = (level: number, id: string) => {
-  const Title = document.querySelector(`h${level}#${id}`);
-  Title?.scrollIntoView({
-    block: "center",
-    behavior: "smooth",
-  });
+    const Title = document.querySelector(`h${level}#${id}`);
+    Title?.scrollIntoView({
+        block: "center",
+        behavior: "smooth",
+    });
 };
 const titleShow = ref(false);
 const setTitleShow = (show?: boolean) => {
-  titleShow.value = show === undefined ? !titleShow.value : show;
+    titleShow.value = show === undefined ? !titleShow.value : show;
 };
 const onTitlesBeforEnter = (el: Element) => {
-  gsap.set(el, { opacity: 0, x: 20 });
+    gsap.set(el, { opacity: 0, x: 20 });
 };
 const onTitlesEnter = (el: Element) => {
-  gsap.to(el, { opacity: 1, x: 0, duration: 0.3 });
+    gsap.to(el, { opacity: 1, x: 0, duration: 0.3 });
 };
 const onTitlesLeave = (el: Element, done: () => void) => {
-  gsap.to(el, { opacity: 0, x: 20, duration: 0.3, onComplete: done });
+    gsap.to(el, { opacity: 0, x: 20, duration: 0.3, onComplete: done });
 };
 
 const onTitlesBtnBeforeEnter = (el: Element) => {
-  gsap.set(el, { opacity: 0, x: 20, rotateZ: 90 });
+    gsap.set(el, { opacity: 0, x: 20, rotateZ: 90 });
 };
 const onTItlesBtnEnter = (el: Element) => {
-  gsap.to(el, { opacity: 1, x: 0, rotateZ: 0, duration: 0.3 });
+    gsap.to(el, { opacity: 1, x: 0, rotateZ: 0, duration: 0.3 });
 };
 const onTitlesBtnLeave = (el: Element, done: () => void) => {
-  // 滚动消失
-  gsap.to(el, {
-    position: "absolute",
-    opacity: 0,
-    x: -30,
-    rotateZ: -90,
-    duration: 0.3,
-    onComplete: done,
-  });
+    // 滚动消失
+    gsap.to(el, {
+        position: "absolute",
+        opacity: 0,
+        x: -30,
+        rotateZ: -90,
+        duration: 0.3,
+        onComplete: done,
+    });
 };
 </script>
 
 <template>
-  <div class="markdown-body">
-    <h1 v-if="props.title" class="pt-[60px]">{{ props.title }}</h1>
-    <div v-html="html"></div>
+    <div class="markdown-body" @load.onece="">
+        <h1 v-if="props.title" class="pt-[60px]">{{ props.title }}</h1>
+        <div v-html="html" class="xs:px-8"></div>
 
-    <!-- 目录 -->
+        <!-- 目录 -->
 
-    <TransitionGroup
-      @before-enter="onTitlesBtnBeforeEnter"
-      @enter="onTItlesBtnEnter"
-      @leave="onTitlesBtnLeave"
-      tag="div"
-      class="fixed z-40 w-8 h-8 ml-auto mr-0 top-16 right-4"
-    >
-      <span
-        key="s1"
-        v-show="!titleShow"
-        class="inline-block cursor-pointer icon glass text-sky-500 hover:text-sky-600"
-      >
-        <CatalogIcon class="w-full" @click="() => setTitleShow(true)" />
-      </span>
-      <span
-        key="s2"
-        v-show="titleShow"
-        class="inline-block text-red-400 cursor-pointer stroke-2 glass icon hover:text-red-600"
-      >
-        <CloseIcon class="w-full" @click="() => setTitleShow(false)" />
-      </span>
-    </TransitionGroup>
+        <TransitionGroup @before-enter="onTitlesBtnBeforeEnter" @enter="onTItlesBtnEnter" @leave="onTitlesBtnLeave"
+            tag="div" class="fixed z-40 w-8 h-8 ml-auto mr-0 top-16 right-4">
+            <span key="s1" v-show="!titleShow"
+                class="inline-block cursor-pointer icon glass text-sky-500 hover:text-sky-600">
+                <CatalogIcon class="w-full" @click="() => setTitleShow(true)" />
+            </span>
+            <span key="s2" v-show="titleShow"
+                class="inline-block text-red-400 cursor-pointer stroke-2 glass icon hover:text-red-600">
+                <CloseIcon class="w-full" @click="() => setTitleShow(false)" />
+            </span>
+        </TransitionGroup>
 
-    <!-- 列表 -->
-    <Transition
-      @before-enter="onTitlesBeforEnter"
-      @enter="onTitlesEnter"
-      @leave="onTitlesLeave"
-    >
-      <div
-        v-show="titleShow"
-        class="fixed p-4 pr-0 text-sm border rounded-md select-none doc-titles top-24 right-4 bg-slate-200/[.97] w-60 dark:bg-slate-800/[.95] border-slate-300 dark:border-slate-600"
-      >
-        <span v-if="titles === undefined || titles.length == 0" class=""
-          >无标题</span
-        >
-        <ul v-else class="scrollbar max-h-[calc(100vh-11rem)] pr-4">
-          <li
-            v-for="title in titles"
-            @click="titleScroll(title.level, title.id)"
-            class="truncate cursor-pointer hover:text-sky-500 text-slate-500 dark:text-slate-400 dark:hover:text-sky-500"
-            :style="{
-              paddingLeft: title.level - 2 + 'rem',
-              fontSize: 1.1 - (title.level - 1) / 10 + 'rem',
-            }"
-            v-html="marked.parseInline(title.title)"
-          ></li>
-        </ul>
-      </div>
-    </Transition>
-  </div>
+        <!-- 列表 -->
+        <Transition @before-enter="onTitlesBeforEnter" @enter="onTitlesEnter" @leave="onTitlesLeave">
+            <div v-show="titleShow"
+                class="fixed p-4 pr-0 text-sm border rounded-md select-none doc-titles top-24 right-4 bg-slate-200/[.97] w-60 dark:bg-slate-800/[.95] border-slate-300 dark:border-slate-600">
+                <span v-if="titles === undefined || titles.length == 0" class="">无标题</span>
+                <ul v-else class="scrollbar max-h-[calc(100vh-11rem)] pr-4">
+                    <li v-for="title in titles" @click="titleScroll(title.level, title.id)"
+                        class="truncate cursor-pointer hover:text-sky-500 text-slate-500 dark:text-slate-400 dark:hover:text-sky-500"
+                        :style="{
+                            paddingLeft: title.level - 2 + 'rem',
+                            fontSize: 1.1 - (title.level - 1) / 10 + 'rem',
+                        }" v-html="marked.parseInline(title.title)"></li>
+                </ul>
+            </div>
+        </Transition>
+    </div>
 </template>
 
 <style scoped>
 .markdown-body {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 .doc-titles ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 </style>

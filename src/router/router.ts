@@ -15,6 +15,13 @@ const routes = [
     redirect: "/",
   },
   {
+    path: "/projects",
+    component: async () => import("@views/Projects/index.vue"),
+    meta: {
+      nav: "项目",
+    },
+  },
+  {
     path: "/docs",
     component: async () => import("@views/Docs/index.vue"),
     name: "Docs",

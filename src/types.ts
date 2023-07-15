@@ -7,10 +7,10 @@ export interface AppHeaderState {
   show: boolean;
 }
 
-// 文件未处理过的标准类型
-// 理论上，不应该被导入。每当 /assets/data/ 下的数据被重新生成时，应当及时修正
+// 每当 /assets/data/ 下的数据被重新生成时，及时修正
+// 使用 Doc 和 Dir 替代
 
-interface File {
+export interface File {
   name: string;
   mtime: string | number;
   birthtime: string | number;
@@ -31,13 +31,10 @@ export interface Dir extends File {
   children: (Dir | Doc)[];
 }
 
-// 搜索功能搜索到的文件类型
-
+// 搜索到的 DOC 返回的类型
 export interface SearchDoc extends Doc {
   keywordIndex: { start: number; end: number };
 }
-
-// 文章类型
 
 export interface Article {
   title: string;
