@@ -44,26 +44,26 @@ watch(() => route.path, (p) => {
 </script>
 
 <template>
-    <div class="flex items-center justify-between w-full gap-2 text-sm select-none" v-show="show">
+    <div class="flex items-center justify-between w-full gap-1 select-none xs:gap-2" v-show="show">
         <!-- 标题 -->
 
-        <h1 class="p-3 px-4 font-bold rounded-r-full shadow-lg text-md glass">
+        <h1 class="p-3 font-bold truncate rounded-r-full shadow-lg xs:px-4 text-md glass">
             {{ store.title }}
         </h1>
 
         <!-- 其他项目 -->
         <span class="flex-grow"></span>
         <!-- 搜索 -->
-        <div class="flex items-center gap-4 p-1 rounded-full shadow-lg glass">
+        <div class="flex items-center gap-2 p-1 rounded-full shadow-lg xs:gap-4 glass">
             <AppSearch class="w-6 icon" />
             <ChangeTheme class="w-6 icon" />
         </div>
 
         <!-- 导航 -->
 
-        <nav class="p-2 px-3 m-2 rounded-full shadow-lg glass">
+        <nav class="p-2 m-2 rounded-full shadow-lg xs:px-3 glass">
             <ul class="flex flex-nowrap">
-                <li v-for="nav in navNames" :key="nav.name" class="px-3 py-1 text-sm" :class="
+                <li v-for="nav in navNames" :key="nav.name" class="px-3 py-1 text-xs truncate" :class="
                     nav.path.split('/')[1] === route.path.split('/')[1]
                         ? 'rounded-full shadow-md glass'
                         : ''

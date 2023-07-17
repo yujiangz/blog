@@ -1,15 +1,12 @@
 <script setup lang="ts">
 import AppBg from "@/components/AppBg.vue";
 import { EmailIcon, GithubIcon } from "@/components/icon";
-import useAppHeader from "@/store/modules/useAppHeader";
 import { gsap } from "gsap";
 import { ref, onMounted } from "vue";
 
 const RefContainer = ref<HTMLElement | null>(null);
 const RefContact = ref<HTMLElement | null>(null);
 
-const headerStore = useAppHeader();
-headerStore.setTitle("张航");
 
 onMounted(() => {
   gsap.set(RefContainer.value, { opacity: 0, y: 20 });

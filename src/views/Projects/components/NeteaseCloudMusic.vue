@@ -17,7 +17,8 @@
                 </p>
                 <p>
                     使用<a href="https://cn.vuejs.org/"> Vue3 </a>作为主要框架，其中的主视图使用<a href="https://router.vuejs.org/zh"> Vue
-                        Router </a>，而子视图（滑动进入的视图）使用动态组件，达到自由跳转的目的。
+                        Router </a>，而子视图（滑动进入的视图）使用动态组件，达到自由跳转的目的。在<a
+                        href="https://developers.weixin.qq.com/ebook?action=get_post_info&docid=0004eec99acc808b00861a5bd5280a">小程序开发指南</a>中有提到页面栈，形式是一样的。项目窗口在刷新或者切换新页面后消失，以保证一定程度上的简洁。该项目没有设置层数上限。后续可能会在超过页面数限制后，删除首个页面，以保证只存在一定数量的页面。
                 </p>
 
                 <div class="clear-both">

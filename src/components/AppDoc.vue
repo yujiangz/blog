@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import "@styles/markdown.css";
-import "@styles/highlight.css";
 import { marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import hljs from "highlight.js";
 
+import "@styles/markdown.css";
+import "@styles/highlight.css";
+
 import { gfmHeadingId } from "marked-gfm-heading-id";
-import { computed, ref, watch } from "vue";
+import { ref, shallowRef, watch } from "vue";
 
 import { CatalogIcon, CloseIcon } from "./icon";
 import { gsap } from "gsap";
@@ -53,34 +54,39 @@ watch(
 );
 
 const html = ref('');
-watch(() => props.article, async (ar) => {
-    if (ar == '') return;
-    html.value = await marked.parse(props.article);
-});
-
 
 // 标题
-
-interface Title {
+const titles = shallowRef<{
     level: number;
     id: string;
     title: string;
-}
-const titles = computed<Title[] | undefined>(() => {
-    if (!html.value) return undefined;
-    const titles: Title[] = [];
+}[]>([]);
+
+watch(() => props.article, async (ar) => {
+    if (ar == '') return;
+    // @ts-ignore
+    html.value = await marked.parse(props.article);
+    const tits = [];
     const reg = /<h([2-6]) id="(.+)">(.+)<\/h[1-6]>/g;
     let result = reg.exec(html.value);
     while (result) {
-        titles.push({
+        tits.push({
             level: parseInt(result[1]),
             id: result[2],
             title: result[3],
         });
         result = reg.exec(html.value);
     }
-    return titles;
+    titles.value = tits;
 });
+
+
+
+// const titles = computed<Title[] | undefined>(() => {
+//     if (!html.value) return undefined;
+
+//     return titles;
+// });
 const titleScroll = (level: number, id: string) => {
     const Title = document.querySelector(`h${level}#${id}`);
     Title?.scrollIntoView({
@@ -123,7 +129,7 @@ const onTitlesBtnLeave = (el: Element, done: () => void) => {
 
 <template>
     <div class="markdown-body" @load.onece="">
-        <h1 v-if="props.title" class="pt-[60px]">{{ props.title }}</h1>
+        <h1 v-if="props.title" class="pt-[40px]">{{ props.title }}</h1>
         <div v-html="html" class="xs:px-8"></div>
 
         <!-- 目录 -->
@@ -144,14 +150,16 @@ const onTitlesBtnLeave = (el: Element, done: () => void) => {
         <Transition @before-enter="onTitlesBeforEnter" @enter="onTitlesEnter" @leave="onTitlesLeave">
             <div v-show="titleShow"
                 class="fixed p-4 pr-0 text-sm border rounded-md select-none doc-titles top-24 right-4 bg-slate-200/[.97] w-60 dark:bg-slate-800/[.95] border-slate-300 dark:border-slate-600">
-                <span v-if="titles === undefined || titles.length == 0" class="">无标题</span>
+                <span v-if="titles.length == 0" class="">无标题</span>
                 <ul v-else class="scrollbar max-h-[calc(100vh-11rem)] pr-4">
                     <li v-for="title in titles" @click="titleScroll(title.level, title.id)"
                         class="truncate cursor-pointer hover:text-sky-500 text-slate-500 dark:text-slate-400 dark:hover:text-sky-500"
                         :style="{
-                            paddingLeft: title.level - 2 + 'rem',
-                            fontSize: 1.1 - (title.level - 1) / 10 + 'rem',
-                        }" v-html="marked.parseInline(title.title)"></li>
+                            paddingLeft: (title.level - 2) + 'rem',
+                            fontSize: '.8rem'
+
+                            // fontSize: 1 - (title.level - 1) / 20 + 'rem',
+                        }">{{ title.title }}</li>
                 </ul>
             </div>
         </Transition>
