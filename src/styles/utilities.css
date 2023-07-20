@@ -1,6 +1,10 @@
 @tailwind utilities;
 
 @layer utilities {
+  .self-mode {
+    @apply bg-white dark:bg-slate-900 dark:text-slate-200 text-slate-600 min-h-screen;
+  }
+
   .glass {
     @apply bg-sky-100/10 dark:bg-white/10  backdrop-filter backdrop-blur-lg;
   }
@@ -10,7 +14,7 @@
   }
 
   .scrollbar {
-    overflow-y: auto;
+    overflow-y: overlay;
   }
   .scrollbar::-webkit-scrollbar {
     width: 6px;

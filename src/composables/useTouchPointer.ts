@@ -1,4 +1,4 @@
-import { isMobile } from "@utils/device";
+import { isMobile } from "@/utils/device";
 import { ref, Ref, onMounted, onUnmounted, computed } from "vue/dist/vue.js";
 
 interface Options {

@@ -55,7 +55,7 @@ const onLeave = (el: Element, done: () => void) => {
 </script>
 
 <template>
-    <div v-if="dir" class="relative p-4 select-none">
+    <div v-if="dir" class="relative select-none">
         <div class="font-bold">{{ dir.name }}</div>
         <ul>
             <li v-for="item in dir.children" :key="item.name" class="truncate hover:text-sky-500">

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import AppBg from "@/components/AppBg.vue";
 import { EmailIcon, GithubIcon } from "@/components/icon";
 import { gsap } from "gsap";
 import { ref, onMounted } from "vue";
@@ -40,9 +39,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <AppBg />
   <div
-    class="flex flex-col justify-center items-center w-full min-h-[calc(100vh-80px)] p-4"
+    class="flex flex-col items-center justify-center w-full p-4"
   >
     <div
       class="w-1/2 p-4 rounded-lg glass min-w-[300px] shadow-lg space-y-6"

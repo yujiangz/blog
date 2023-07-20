@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Dir } from "@/types";
 import { DirIcon, EnterIcon } from "../icon";
-import { getColorCode } from "@utils/decoration";
+import { getColorCode } from "@/utils/decoration";
 import RandomSvg from "./RandomSvg.vue";
 import dayjs from "dayjs";
 import gsap from "gsap";

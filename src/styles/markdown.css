@@ -398,6 +398,11 @@
   margin-bottom: 10px;
 }
 
+.markdown-body>p,
+.markdown-body div > p {
+    text-indent: 2em;
+}
+
 .markdown-body blockquote {
   margin: 0;
   padding: 0 1em;

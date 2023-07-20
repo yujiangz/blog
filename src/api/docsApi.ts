@@ -1,4 +1,4 @@
-import docs from "./docs.json";
+import docs from "@/assets/data/docs.json";
 import { Doc, Dir, SearchDoc } from "@/types.ts";
 
 // 增加 url 字段，并去除后缀
