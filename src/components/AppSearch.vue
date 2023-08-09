@@ -163,21 +163,20 @@ onUnmounted(() => {
 });
 </script>
 
-<template><!-- 占位提示 -->
+<template>
+<!-- 占位提示 -->
     <span @click="setSearchActive()" v-bind="$attrs">
         <SearchIcon />
     </span>
 
     <Teleport to="body">
-        <div v-show="searchActive" class="fixed inset-0 z-50 w-full h-full backdrop-filter backdrop-blur-md" @click.self="
-            {
-                setSearchActive();
-                      searchValue = '';
-            }
-        ">
+        <div v-show="searchActive" class="fixed inset-0 z-50 w-full h-full backdrop-filter backdrop-blur-md" @click.self="{
+            setSearchActive();
+                searchValue = '';}"
+        >
             <!-- 卡片 -->
             <div v-show="searchActive"
-                class="mx-auto mt-12 overflow-hidden rounded-lg w-1/2 min-w-[300px] max-w-[420px] bg-white shadow-lg bg-opacity-40 text-gray-600 dark:bg-gray-800 dark:bg-opacity-75 dark:text-gray-200 border-2 border-slate-200 dark:border-gray-600">
+                class="mx-auto mt-20 overflow-hidden rounded-lg w-1/2 min-w-[300px] max-w-[420px] bg-white shadow-lg bg-opacity-40 text-gray-600 dark:bg-gray-800 dark:bg-opacity-75 dark:text-gray-200 border-2 border-slate-200 dark:border-gray-600">
                 <!-- header -->
                 <div class="relative w-full p-4">
                     <input type="text" v-model="searchValue"

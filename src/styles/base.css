@@ -2,7 +2,9 @@
 
 @layer base {
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
+    height: 5px;
+
   }
   ::-webkit-scrollbar-thumb {
     @apply bg-gray-400 rounded-full;
@@ -14,6 +16,10 @@
 
   ::-webkit-scrollbar-track {
     @apply bg-gray-200/0;
+  }
+
+  :root {
+    font-size: 15px;
   }
 
   body {

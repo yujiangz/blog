@@ -6,10 +6,11 @@ import AppDoc from "@/components/AppDoc.vue";
 import { reactive, watchEffect } from "vue";
 import { useRoute } from "vue-router";
 import RelatedDocs from "../components/RelatedDocs.vue";
+import { getDocPath } from "@/utils/doc";
 
 const article = reactive<Article>({
     title: "",
-    content: "",
+    path: "",
     folder: null,
 });
 
@@ -20,27 +21,23 @@ watchEffect(async () => {
     const path = route.fullPath;
     const p = decodeURIComponent(path);
     article.title = p.split("/").pop() || "";
-    const res = await fetch(p + ".md");
-    article.content = await res.text();
+    article.path = getDocPath(p);
     article.folder = getParentByUrl(p);
 });
 </script>
 
 <template>
-    <div class="flex justify-center min-h-screen mx-auto self-mode sm:px-4 md:px-8">
+    <div class="flex justify-center min-h-screen gap-8 mx-auto self-mode sm:px-4 md:px-8">
 
         <!-- 相关文档 -->
 
-        <div class="sticky hidden max-h-screen top-16 md:block">
-            <RelatedDocs :dir="article.folder" class="text-sm min-h-[360px] p-4" />
-        </div>
+        <section class="sticky hidden max-h-screen top-16 md:block">
+            <h2 class="py-1 font-bold">相关文档</h2>
+            <RelatedDocs :dir="article.folder" class="text-sm min-h-[360px] " />
+        </section>
 
         <!-- 文档 -->
 
-        <div class="flex-grow max-w-5xl overflow-hidden">
-            <AppDoc :article="article.content" :title="article.title" class="p-4" />
-        </div>
+        <AppDoc :path="article.path" :title="article.title" class="max-w-3xl overflow-x-hidden grow" />
     </div>
 </template>
-
-<style scoped></style>

@@ -78,7 +78,8 @@ const onLeave = (el: Element, done: () => void) => {
         <Transition @before-enter="onBeforeEnter" @enter="onEnter" @leave="onLeave">
             <div v-if="childDir"
                 class="absolute inset-0 h-full overflow-hidden bg-gray-100 rounded-md shadow-inner dark:bg-gray-600">
-                <div class="py-1 text-xs cursor-pointer hover:bg-sky-500" @click="setChildDir(null)">
+                <div class="py-1 text-xs font-bold cursor-pointer text-slate-400 hover:bg-sky-500"
+                    @click="setChildDir(null)">
                     <span>
                         <EnterIcon class="inline-block w-6 h-6 rotate-180" />
                     </span>

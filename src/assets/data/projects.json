@@ -2,32 +2,31 @@
   {
     "title": "我的主页",
     "description": "<p>即您正在访问的网站。</p><p>作为个人存储笔记的网站，该网页使用到了 <a href='https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API'>service worker</a>，以保证离线时依然可以响应。</p><p>如果您不想让浏览器缓存资源，您可以开启隐私（无痕）模式来禁用该技术。</p>",
-    "pcPics": ["/projects/imgs/00-1.png"],
-    "phonePics": ["/projects/imgs/00-2.png"],
+    "pcPics": ["/projects/imgs/00-1.webp", "/projects/imgs/00-1.png"],
+    "phonePics": ["/projects/imgs/00-2.webp", "/projects/imgs/00-2.png"],
     "pcPic": "/projects/imgs/00-1.png",
     "phonePic": "/projects/imgs/00-2.png"
   },
   {
     "title": "网易云音乐",
     "description": "<p>该项目根据平板的网易云音乐 App 进行布局，改动一小部分。</p><p>vue3、typescript、ElementPlus等。</p><p>其中的主视图使用 Vue Router ，而子视图（滑动进入的视图）使用动态组件，达到自由跳转的目的。在<a href='https://developers.weixin.qq.com/ebook?action=get_post_info&docid=0004eec99acc808b00861a5bd5280a'>小程序开发指南</a>中有提到页面栈，表现形式是一样的。</p>",
-    "pcPics": ["/projects/imgs/06.png"],
-    "phonePics": ["/projects/imgs/04.png"],
+    "pcPics": ["/projects/imgs/06.webp", "/projects/imgs/06.png"],
+    "phonePics": ["/projects/imgs/04.webp", "/projects/imgs/04.png"],
     "pcPic": "/projects/imgs/06.png",
     "phonePic": "/projects/imgs/04.png"
   },
   {
     "title": "小兔鲜儿",
     "description": "<p>该项目是<a href='https://www.bilibili.com/video/BV1Ac411K7EQ'> 黑马程序员前端Vue3小兔鲜电商项目实战 </a>，早些时候的练习项目。</p><p>链接的原视频很详细，但你可以使用 TypeScript 稍微改造下，尝试之后，个人感觉可能不需要 TypeScript，注意接口的返回值即可。小屏适配，可能是优化该项目的一个方向，但也要想好是否值得。</p><p>本文档将分享该项目中的 <code>power-set.js</code> 文件。</p>",
-    "pcPics": ["/projects/imgs/06-1.png"],
-    "phonePics": ["/projects/imgs/06-2.png"],
+    "pcPics": ["/projects/imgs/06-1.webp", "/projects/imgs/06-1.png"],
+    "phonePics": ["/projects/imgs/06-2.webp", "/projects/imgs/06-2.png"],
     "pcPic": "/projects/imgs/06-1.png",
     "phonePic": "/projects/imgs/06-2.png"
   },
   {
     "title": "数据可视化",
     "description": "<p>全是<a href='https://echarts.apache.org/zh/index.html'> Echarts </a>，但该项目过老，请到官网查看最新的参数，同时，可以拦截请求数据（如使用 <a href='http://mockjs.com/'> mockjs </a>）。</p><p>在该 demo 中，可以注意一下所使用的自适应<code>rem</code>，该方法也有历史版本。</p>",
-    "pcPics": ["/projects/imgs/07-1.png"],
-    "phonePics": ["/projects/imgs/07-2.png"],
+    "pcPics": ["/projects/imgs/07-1.webp", "/projects/imgs/07-1.png"],
     "pcPic": "/projects/imgs/07-1.gif",
     "nomore": true
   }

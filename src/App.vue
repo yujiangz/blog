@@ -3,7 +3,7 @@ import AppHeader from "@/components/AppHeader.vue";
 </script>
 
 <template>
-    <AppHeader class="fixed top-0 left-0 z-50" />
+    <AppHeader />
     <router-view class="min-h-screen transition-[padding] duration-200  backdrop-blur-sm pt-16" />
 </template>
 
@@ -15,6 +15,7 @@ body {
     background-attachment: fixed;
     overflow-x: hidden;
     overflow: overlay;
+
 }
 
 .dark body {
@@ -22,4 +23,5 @@ body {
     background-size: cover;
     background-attachment: fixed;
 }
+
 </style>

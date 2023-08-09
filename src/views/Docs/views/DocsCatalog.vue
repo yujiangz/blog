@@ -2,8 +2,7 @@
 import { Dir, Doc } from "@/types";
 import DirCard from "@/components/common/DirCard.vue";
 import { data as docs } from "@/api/docsApi.ts";
-import { ref, onMounted } from "vue";
-import { gsap } from "gsap";
+import Statistics from "../components/Statistics.vue";
 
 const dirs: Dir[] = [];
 const otherDocs: Dir = {
@@ -23,31 +22,16 @@ docs.children.forEach((d: Doc | Dir) => {
 });
 dirs.push(otherDocs);
 
-// 开始的动画
-const Container = ref<Element | null>(null);
-onMounted(() => {
-    const children = Container.value?.children;
-    if (!children) return;
-    gsap.set(Container.value, { overflow: "hidden" });
-    gsap.set(children, { opacity: 0, y: 30 });
-    const len = children.length;
-    for (let i = 0; i < len; i++) {
-        const child = children[i];
-        gsap.to(child, {
-            opacity: 1,
-            y: 0,
-            duration: 0.3,
-            delay: i * 0.15,
-            ease: "power2.out",
-        });
-    }
-    gsap.to(Container.value, { overflow: "auto", delay: len * 0.15 });
-});
+
 </script>
 
 <template>
-    <div class="grid grid-flow-row-dense grid-cols-1 gap-6 p-4 sm:grid-cols-2 lg:grid-cols-3 auto-rows-auto"
-        ref="Container">
+    <div>
+        <Statistics class="row-span-2 overflow-y-auto" />
+        <div class="grid grid-flow-row-dense grid-cols-1 gap-6 p-4 sm:grid-cols-2 lg:grid-cols-3 auto-rows-auto">
+            <DirCard v-for="(dir, index) in dirs" :dir="dir" :svg="true" :key="index"
+                :class="`row-span-${Math.ceil(dir.children.length / 3)}`" class="shadow-lg" />
+        </div>
         <div class="fixed grid none">
             <span class="row-span-1"></span>
             <span class="row-span-2"></span>
@@ -55,8 +39,6 @@ onMounted(() => {
             <span class="row-span-4"></span>
             <span class="row-span-5"></span>
         </div>
-        <DirCard v-for="(dir, index) in dirs" :dir="dir" :svg="true" :key="index"
-            :class="`row-span-${Math.ceil(dir.children.length / 3)}`" class="shadow-lg" />
     </div>
 </template>
 

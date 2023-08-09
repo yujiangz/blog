@@ -1,4 +1,3 @@
-// import { JRoute } from "@/types";
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [
@@ -22,20 +21,12 @@ const routes = [
     meta: {
       nav: "项目",
     },
-    // children: [
-    //   {
-    //     path: "/projects/:title",
-    //     component: async () => import("@/views/Projects/ReadProject.vue"),
-    //     props: true,
-    //   },
-    // ],
   },
 
   {
     path: "/projects/:title",
     component: async () => import("@/views/Projects/views/ReadProject.vue"),
     props: true,
-
   },
 
   {
@@ -62,9 +53,15 @@ const routes = [
 export default createRouter({
   history: createWebHashHistory(),
   routes,
-  scrollBehavior() {
-    return {
-      top: 0,
-    };
+  scrollBehavior(to) {
+    if (to.hash) {
+      return new Promise((resolve, _reject) => {
+        setTimeout(() => {
+          resolve({ el: to.hash, behavior: "smooth" });
+        }, 500);
+      });
+    }
+
+    return { top: 0 };
   },
 });

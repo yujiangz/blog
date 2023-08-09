@@ -1,4 +1,3 @@
-
 // ？？？？？？？？？？？？？
 // AppHeader 的状态类型，待修改
 
@@ -12,8 +11,8 @@ export interface AppHeaderState {
 
 export interface File {
   name: string;
-  mtime: string | number;
-  birthtime: string | number;
+  mtime: number;
+  birthtime: number;
   type: string;
   url?: string;
   children?: File[];
@@ -38,7 +37,7 @@ export interface SearchDoc extends Doc {
 
 export interface Article {
   title: string;
-  content: string;
+  path: string;
   folder: Dir | null;
 }
 

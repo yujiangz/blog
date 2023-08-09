@@ -74,7 +74,7 @@ const childCardLeave = (el: Element, done: () => void) => {
 </script>
 
 <template>
-    <div class="flex overflow-hidden rounded-lg" :style="style.card">
+    <div class="relative flex overflow-hidden rounded-lg" :style="style.card">
         <!-- 左侧信息 -->
 
         <div class="relative flex flex-col justify-between basis-5/12" :style="style.leftWrapper">
@@ -98,7 +98,7 @@ const childCardLeave = (el: Element, done: () => void) => {
                 <!-- 文件夹 -->
 
                 <div v-if="child.type === 'dir'"
-                    class="p-2 truncate rounded-md cursor-pointer hover:bg-opacity-40 hover:bg-white"
+                    class="p-2 truncate rounded-md cursor-pointer hover:bg-white/40"
                     @click="childCard = child">
                     <DirIcon class="inline-block w-4 align-text-top stroke-2" :style="style.dirIcon" />
                     {{ child.name }}
@@ -107,7 +107,7 @@ const childCardLeave = (el: Element, done: () => void) => {
                 <!-- 文件 -->
 
                 <RouterLink :to="child.url" v-else
-                    class="block p-2 truncate rounded-md cursor-pointer hover:bg-opacity-40 hover:bg-white">
+                    class="block p-2 truncate rounded-md cursor-pointer hover:bg-white/40">
                     <span class="inline-block w-2 mx-1 h-[3px] mb-[.2em] rounded-full" :style="style.docIcon"></span>
                     {{ child.name }}
                 </RouterLink>
